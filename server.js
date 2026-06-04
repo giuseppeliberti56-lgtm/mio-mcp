@@ -11,7 +11,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ CREA MCP SERVER
+// ✅ ROUTE HOME (FIX ERRORE)
+app.get("/", (req, res) => {
+  res.send("✅ Server MCP attivo");
+});
+
+// ✅ MCP SERVER
 const mcpServer = new Server(
   { name: "test-mcp", version: "1.0.0" },
   { capabilities: { tools: {} } }
@@ -34,7 +39,7 @@ mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "sum_numbers",
-        description: "Usa questo tool per fare somme o calcoli matematici",
+        description: "Usa questo tool per fare somme",
         inputSchema: {
           type: "object",
           properties: {
@@ -46,7 +51,7 @@ mcpServer.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "get_time",
-        description: "Usa questo tool quando l'utente chiede che ore sono",
+        description: "Restituisce l'orario",
         inputSchema: {
           type: "object",
           properties: {}
@@ -99,7 +104,9 @@ app.post("/mcp", async (req, res) => {
   }
 });
 
-// ✅ AVVIO SERVER
-app.listen(3000, () => {
-  console.log("✅ MCP pronto su http://localhost:3000/mcp");
+// ✅ PORTA CORRETTA (FONDAMENTALE)
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`✅ Server attivo su porta ${port}`);
 });
+``
